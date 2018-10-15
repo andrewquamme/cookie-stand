@@ -48,3 +48,23 @@ var firstPike = {
 firstPike.estHourlyCust = estimateHourlyCustomers(firstPike.minHourlyCust, firstPike.maxHourlyCust);
 firstPike.estHourlySales = calcCookieSales(firstPike.estHourlyCust, firstPike.avgSales);
 firstPike.totalSales = calcDailySales(firstPike.estHourlySales);
+firstPike.render = function() {
+  // render store sales info to sales.html page
+  // access location to place data
+  var pikeUl = document.getElementById('first-pike');
+  // for each element in the cookie sales array, we need to:
+  for (var i = 0; i < this.estHourlySales.length; i ++) {
+    // 1. create a <li> element
+    var liEl = document.createElement('li');
+    // 2. give that <li> content
+    liEl.textContent = `${hours[i]}: ${this.estHourlySales[i]} cookies`;
+    // 3. append the <li> to the <ul>
+    pikeUl.appendChild(liEl);
+  };
+  // add total sales at end of list
+  liEl = document.createElement('li');
+  liEl.textContent = `Total: ${this.totalSales} cookies`;
+  pikeUl.appendChild(liEl);
+};
+
+firstPike.render();
