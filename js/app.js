@@ -122,6 +122,35 @@ seaCenter.render = function() {
   seaCenterUl.appendChild(liEl);
 };
 
+var capitolHill = {
+  locationName: 'Seattle Center',
+  minHourlyCust: 11,
+  maxHourlyCust: 38,
+  avgSales: 3.7,
+};
+capitolHill.estHourlyCust = estimateHourlyCustomers(capitolHill.minHourlyCust, capitolHill.maxHourlyCust);
+capitolHill.estHourlySales = calcCookieSales(capitolHill.estHourlyCust, capitolHill.avgSales);
+capitolHill.totalSales = calcDailySales(capitolHill.estHourlySales);
+capitolHill.render = function() {
+  // render store sales info to sales.html page
+  // access location to place data
+  var capitolHillUl = document.getElementById('capitol-hill');
+  // for each element in the cookie sales array, we need to:
+  for (var i = 0; i < this.estHourlySales.length; i ++) {
+    // 1. create a <li> element
+    var liEl = document.createElement('li');
+    // 2. give that <li> content
+    liEl.textContent = `${hours[i]}: ${this.estHourlySales[i]} cookies`;
+    // 3. append the <li> to the <ul>
+    capitolHillUl.appendChild(liEl);
+  };
+  // add total sales at end of list
+  liEl = document.createElement('li');
+  liEl.textContent = `Total: ${this.totalSales} cookies`;
+  capitolHillUl.appendChild(liEl);
+};
+
 firstPike.render();
 seatac.render();
 seaCenter.render();
+capitolHill.render();
