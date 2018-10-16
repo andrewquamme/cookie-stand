@@ -36,19 +36,20 @@ function calcTotalDailySales(hourlySales) {
   return totalSales;
 };
 
-var firstPike = {
+// 1st and Pike	23	65	6.3
+var pike = {
   locationName: 'First and Pike',
   minCustomersPerHour: 23,
   maxCustomersPerHour: 65,
   avgCookiesPerCustomer: 6.3,
 };
-firstPike.customersPerHour = calcCustomersPerHour(firstPike.minCustomersPerHour, firstPike.maxCustomersPerHour);
-firstPike.hourlyCookieSales = calcHourlyCookieSales(firstPike.customersPerHour, firstPike.avgCookiesPerCustomer);
-firstPike.totalDailySales = calcTotalDailySales(firstPike.hourlyCookieSales);
-firstPike.render = function() {
+pike.customersPerHour = calcCustomersPerHour(pike.minCustomersPerHour, pike.maxCustomersPerHour);
+pike.hourlyCookieSales = calcHourlyCookieSales(pike.customersPerHour, pike.avgCookiesPerCustomer);
+pike.totalDailySales = calcTotalDailySales(pike.hourlyCookieSales);
+pike.render = function() {
   // render store sales info to sales.html page
   // access location to place data
-  var pikeUl = document.getElementById('first-pike');
+  var pikeUl = document.getElementById('pike');
   // for each element in the cookie sales array, we need to:
   for (var i = 0; i < this.hourlyCookieSales.length; i ++) {
     // 1. create a <li> element
@@ -64,6 +65,7 @@ firstPike.render = function() {
   pikeUl.appendChild(liEl);
 };
 
+// SeaTac Airport	3	24	1.2
 var seatac = {
   locationName: 'Seatac Airport',
   minCustomersPerHour: 3,
@@ -92,6 +94,7 @@ seatac.render = function() {
   seatacUl.appendChild(liEl);
 };
 
+// Seattle Center	11	38	3.7
 var seaCenter = {
   locationName: 'Seattle Center',
   minCustomersPerHour: 11,
@@ -120,6 +123,7 @@ seaCenter.render = function() {
   seaCenterUl.appendChild(liEl);
 };
 
+// Capitol Hill	20	38	2.3
 var capitolHill = {
   locationName: 'Capitol Hill',
   minCustomersPerHour: 20,
@@ -148,6 +152,7 @@ capitolHill.render = function() {
   capitolHillUl.appendChild(liEl);
 };
 
+// Alki	2	16	4.6
 var alki = {
   locationName: 'Alki',
   minCustomersPerHour: 2,
@@ -176,7 +181,7 @@ alki.render = function() {
   alkiUl.appendChild(liEl);
 };
 
-firstPike.render();
+pike.render();
 seatac.render();
 seaCenter.render();
 capitolHill.render();
