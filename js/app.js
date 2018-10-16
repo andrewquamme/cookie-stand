@@ -52,11 +52,11 @@ pike.render = function() {
   var pikeUl = document.getElementById('pike');
   // for each element in the cookie sales array, we need to:
   for (var i = 0; i < this.hourlyCookieSales.length; i ++) {
-    // 1. create a <li> element
+    // 1. create an <li> element
     var liEl = document.createElement('li');
     // 2. give that <li> content
     liEl.textContent = `${hours[i]}: ${this.hourlyCookieSales[i]} cookies`;
-    // 3. append the <li> to the <ul>
+    // 3. append the <li> child to the <ul> parent
     pikeUl.appendChild(liEl);
   };
   // add total sales at end of list
