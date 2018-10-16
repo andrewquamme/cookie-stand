@@ -44,7 +44,6 @@ var firstPike = {
   maxHourlyCust: 65,
   avgSales: 6.3,
 };
-
 firstPike.estHourlyCust = estimateHourlyCustomers(firstPike.minHourlyCust, firstPike.maxHourlyCust);
 firstPike.estHourlySales = calcCookieSales(firstPike.estHourlyCust, firstPike.avgSales);
 firstPike.totalSales = calcDailySales(firstPike.estHourlySales);
@@ -73,7 +72,6 @@ var seatac = {
   maxHourlyCust: 65,
   avgSales: 1.2,
 };
-
 seatac.estHourlyCust = estimateHourlyCustomers(seatac.minHourlyCust, seatac.maxHourlyCust);
 seatac.estHourlySales = calcCookieSales(seatac.estHourlyCust, seatac.avgSales);
 seatac.totalSales = calcDailySales(seatac.estHourlySales);
@@ -96,5 +94,34 @@ seatac.render = function() {
   seatacUl.appendChild(liEl);
 };
 
+var seaCenter = {
+  locationName: 'Seattle Center',
+  minHourlyCust: 11,
+  maxHourlyCust: 38,
+  avgSales: 3.7,
+};
+seaCenter.estHourlyCust = estimateHourlyCustomers(seaCenter.minHourlyCust, seaCenter.maxHourlyCust);
+seaCenter.estHourlySales = calcCookieSales(seaCenter.estHourlyCust, seaCenter.avgSales);
+seaCenter.totalSales = calcDailySales(seaCenter.estHourlySales);
+seaCenter.render = function() {
+  // render store sales info to sales.html page
+  // access location to place data
+  var seaCenterUl = document.getElementById('seattle-center');
+  // for each element in the cookie sales array, we need to:
+  for (var i = 0; i < this.estHourlySales.length; i ++) {
+    // 1. create a <li> element
+    var liEl = document.createElement('li');
+    // 2. give that <li> content
+    liEl.textContent = `${hours[i]}: ${this.estHourlySales[i]} cookies`;
+    // 3. append the <li> to the <ul>
+    seaCenterUl.appendChild(liEl);
+  };
+  // add total sales at end of list
+  liEl = document.createElement('li');
+  liEl.textContent = `Total: ${this.totalSales} cookies`;
+  seaCenterUl.appendChild(liEl);
+};
+
 firstPike.render();
 seatac.render();
+seaCenter.render();
