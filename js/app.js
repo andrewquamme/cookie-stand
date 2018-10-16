@@ -1,12 +1,10 @@
 'use strict';
 
-var hours = ['6am', '7am', '8am', '9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm','8pm'];
+var hours = ['6am', '7am', '8am', '9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm'];
 
 function getRandomInclusive(min, max) {
-  // receives a min and max as input, calculates a random number inclusive of those numbers
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+  // receives a min and max as input, calculates a random number inclusive of those numbers - from MDN docs
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
 function  estimateHourlyCustomers(min, max) {
