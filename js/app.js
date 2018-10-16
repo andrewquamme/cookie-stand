@@ -2,13 +2,11 @@
 
 var hours = ['6am', '7am', '8am', '9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm'];
 
-function getRandomInclusive(min, max) {
-  // receives a min and max as input, calculates a random number inclusive of those numbers - from MDN docs
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
 // Array to hold Store objects
 var allStores = [];
+
+// We need to access the table that is in the DOM
+var storeTable = document.getElementById('stores');
 
 // Store constructor
 function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPerCustomer) {
@@ -25,7 +23,7 @@ function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPer
 Store.prototype.calcCustomersPerHour = function() {
   // take the estimated min and max customers per hour, and return a random number to estimate the customers per hour for each hour of operation
   for (var i = 0; i < hours.length; i++) {
-    this.customersPerHour.push(getRandomInclusive(this.minCustomersPerHour, this.maxCustomersPerHour));
+    this.customersPerHour.push(Math.floor(Math.random() * (this.maxCustomersPerHour - this.minCustomersPerHour + 1)) + this.minCustomersPerHour);
   }
 };
 
@@ -41,6 +39,25 @@ Store.prototype.calcHourlyCookieSales = function() {
 Store.prototype.render = function(){
   this.calcCustomersPerHour();
   this.calcHourlyCookieSales();
+
+  // make a tr
+  var trEl = document.createElement('tr');
+
+  for (var i = 0; i < hours.length; i++) {
+    // make a td
+    var tdEl = document.createElement('td');
+    // give it name content
+    tdEl.textContent = this.cookiesPerHour[i];
+    //append td to tr
+    trEl.appendChild(tdEl);
+  };
+
+  tdEl = document.createElement('td');
+  tdEl.textContent = this.totalDailySales;
+  trEl.appendChild(tdEl);
+
+  // append tr to table
+  storeTable.appendChild(trEl);
 };
 
 // Create instances of Store
@@ -66,5 +83,27 @@ function renderAllStores() {
   }
 };
 
+function makeHeaderRow() {
+  // create a tr
+  var trEl = document.createElement('tr');
+
+  for (var i = 0; i < hours.length; i++) {
+    // create a th
+    var thEl = document.createElement('th');
+    // give it content
+    thEl.textContent = hours[i];
+    // append to the tr
+    trEl.appendChild(thEl);
+  };
+
+  thEl = document.createElement('th');
+  thEl.textContent = 'Total Daily Sales';
+  trEl.appendChild(thEl);
+
+  // Append to table
+  storeTable.appendChild(trEl);
+}
+makeHeaderRow();
 renderAllStores();
-console.table(allStores);
+
+// console.table(allStores);
