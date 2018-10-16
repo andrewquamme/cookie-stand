@@ -7,5 +7,16 @@ h2 {
 }
 
 table {
+  border: 5px solid black;
   margin: 5px;
+}
+
+th {
+  background-color: black;
+  color: white;
+  height: 15px;
+}
+
+td, th {
+  padding: 5px;
 }

@@ -43,6 +43,10 @@ Store.prototype.render = function(){
   // make a tr
   var trEl = document.createElement('tr');
 
+  tdEl = document.createElement('td');
+  tdEl.textContent = this.location;
+  trEl.appendChild(tdEl);
+
   for (var i = 0; i < hours.length; i++) {
     // make a td
     var tdEl = document.createElement('td');
@@ -86,6 +90,10 @@ function renderAllStores() {
 function makeHeaderRow() {
   // create a tr
   var trEl = document.createElement('tr');
+
+  thEl = document.createElement('th');
+  thEl.textContent = 'Store Location';
+  trEl.appendChild(thEl);
 
   for (var i = 0; i < hours.length; i++) {
     // create a th
