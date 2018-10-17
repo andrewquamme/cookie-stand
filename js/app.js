@@ -15,9 +15,6 @@ function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPer
   this.minCustomersPerHour = minCustomersPerHour;
   this.maxCustomersPerHour = maxCustomersPerHour;
   this.avgCookiesPerCustomer = avgCookiesPerCustomer;
-  this.customersPerHour = [];
-  this.cookiesPerHour = [];
-  this.totalDailySales = 0;
   allStores.push(this);
 };
 
@@ -38,6 +35,10 @@ Store.prototype.calcHourlyCookieSales = function() {
 
 // Perform calculations and render table data
 Store.prototype.render = function(){
+  this.customersPerHour = [];
+  this.cookiesPerHour = [];
+  this.totalDailySales = 0;
+
   this.calcCustomersPerHour();
   this.calcHourlyCookieSales();
 
@@ -124,13 +125,18 @@ function handleFormSubmit(event) {
   event.preventDefault();
 
   var storeLocation = event.target.storeLocation.value;
-  var minCustomers = event.target.minCustomers.value;
-  var maxCustomers = event.target.maxCustomers.value;
-  var avgSales = event.target.avgSales.value;
+  var minCustomers = Number(event.target.minCustomers.value);
+  var maxCustomers = Number(event.target.maxCustomers.value);
+  var avgSales = Number(event.target.avgSales.value);
 
   new Store(storeLocation, minCustomers, maxCustomers, avgSales);
-  
+
   renderAllElements();
+
+  event.target.storeLocation.value = null;
+  event.target.minCustomers.value = null;
+  event.target.maxCustomers.value = null;
+  event.target.avgSales.value = null;
 };
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++
