@@ -110,8 +110,51 @@ function makeHeaderRow() {
 
   // Append to table
   storeTable.appendChild(trEl);
-}
+};
+
+function calcTotalHourlyCookieSales() {
+  var hourlyTotals = [];
+  var grandTotal = 0;
+  for (var i = 0; i < hours.length; i ++){
+    hourlyTotals.push(0);
+    for (var j = 0; j < allStores.length; j++) {
+      hourlyTotals[i] += allStores[j].cookiesPerHour[i];
+    };
+    grandTotal += hourlyTotals[i];
+  };
+
+  return [hourlyTotals, grandTotal];
+};
+
+function makeFooterRow() {
+  var totals = calcTotalHourlyCookieSales();
+
+  // create a tr
+  var trEl = document.createElement('tr');
+
+  thEl = document.createElement('th');
+  thEl.textContent = 'Totals';
+  trEl.appendChild(thEl);
+
+  for (var i = 0; i < hours.length; i++) {
+    // create a th
+    var thEl = document.createElement('th');
+    // give it content
+    thEl.textContent = totals[0][i];
+    // append to the tr
+    trEl.appendChild(thEl);
+  };
+
+  thEl = document.createElement('th');
+  thEl.textContent = totals[1];
+  trEl.appendChild(thEl);
+
+  // Append to table
+  storeTable.appendChild(trEl);
+};
+
 makeHeaderRow();
 renderAllStores();
+makeFooterRow();
 
 // console.table(allStores);
