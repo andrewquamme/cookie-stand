@@ -13,6 +13,27 @@
       <h1>Pat's Salmon Cookies - Sales Projections</h1>
     </header>
 
+    <form id="store-form">
+      <fieldset>
+        <legend>Add New Store</legend>
+
+        <label for="location">Location: </label>
+        <input name="location" type="text" size="15" required />
+
+        <label for="min-customers">Min Customers: </label>
+        <input name="min-customers" type="text" size="4" required />
+
+        <label for="max-customers">Max Customers: </label>
+        <input name="max-customers" type="text" size="4" required />
+
+        <label for="average-sales">Average Cookies Sales: </label>
+        <input name="average-sales" type="text" size="4" required />
+        <button type="submit">Add</button>        
+      </fieldset>
+      
+
+    </form>
+
     <table id="stores"></table>
    
     <script src="js/app.js"></script>
