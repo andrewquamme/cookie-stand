@@ -121,11 +121,20 @@ function renderAllElements() {
 }
 
 function handleFormSubmit(event) {
-  console.log(event);
+  event.preventDefault();
+
+  var storeLocation = event.target.storeLocation.value;
+  var minCustomers = event.target.minCustomers.value;
+  var maxCustomers = event.target.maxCustomers.value;
+  var avgSales = event.target.avgSales.value;
+
+  new Store(storeLocation, minCustomers, maxCustomers, avgSales);
+  
+  renderAllElements();
 };
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Executable Code
 renderAllElements();
 
-storeForm.addEventListener('click', handleFormSubmit);
+storeForm.addEventListener('submit', handleFormSubmit);
