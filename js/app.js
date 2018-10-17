@@ -2,13 +2,10 @@
 
 var hours = ['6am', '7am', '8am', '9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm'];
 
-// Array to hold Store objects
 var allStores = [];
 
-// We need to access the table that is in the DOM
 var storeTable = document.getElementById('stores');
 
-// Store constructor
 function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPerCustomer) {
   this.location = location;
   this.minCustomersPerHour = minCustomersPerHour;
@@ -40,7 +37,6 @@ Store.prototype.render = function(){
   this.calcCustomersPerHour();
   this.calcHourlyCookieSales();
 
-  // make a tr
   var trEl = document.createElement('tr');
 
   tdEl = document.createElement('td');
@@ -48,11 +44,8 @@ Store.prototype.render = function(){
   trEl.appendChild(tdEl);
 
   for (var i = 0; i < hours.length; i++) {
-    // make a td
     var tdEl = document.createElement('td');
-    // give it name content
     tdEl.textContent = this.cookiesPerHour[i];
-    //append td to tr
     trEl.appendChild(tdEl);
   };
 
@@ -60,18 +53,8 @@ Store.prototype.render = function(){
   tdEl.textContent = this.totalDailySales;
   trEl.appendChild(tdEl);
 
-  // append tr to table
   storeTable.appendChild(trEl);
 };
-
-// Create instances of Store
-/*
-1st and Pike	23	65	6.3
-SeaTac Airport	3	24	1.2
-Seattle Center	11	38	3.7
-Capitol Hill	20	38	2.3
-Alki	2	16	4.6
-*/
 
 new Store('First and Pike', 23, 65, 6.3);
 new Store('SeaTac Airport', 3, 24, 1.2);
@@ -81,16 +64,14 @@ new Store ('Alki', 2, 16, 4.6);
 // new Store('Codefellows', 15, 50, 1.3);
 // new Store('Tacoma', 5, 10, 12);
 
-// Render all stores
 function renderAllStores() {
   for (var i = 0; i < allStores.length; i ++) {
     allStores[i].render();
-    // console.table(allStores[i]);
   }
 };
 
 function makeHeaderRow() {
-  // create a tr
+
   var trEl = document.createElement('tr');
 
   thEl = document.createElement('th');
@@ -98,11 +79,8 @@ function makeHeaderRow() {
   trEl.appendChild(thEl);
 
   for (var i = 0; i < hours.length; i++) {
-    // create a th
     var thEl = document.createElement('th');
-    // give it content
     thEl.textContent = hours[i];
-    // append to the tr
     trEl.appendChild(thEl);
   };
 
@@ -110,7 +88,6 @@ function makeHeaderRow() {
   thEl.textContent = 'Total Daily Sales';
   trEl.appendChild(thEl);
 
-  // Append to table
   storeTable.appendChild(trEl);
 };
 
@@ -131,7 +108,6 @@ function calcTotalHourlyCookieSales() {
 function makeFooterRow() {
   var totals = calcTotalHourlyCookieSales();
 
-  // create a tr
   var trEl = document.createElement('tr');
 
   thEl = document.createElement('th');
@@ -139,11 +115,8 @@ function makeFooterRow() {
   trEl.appendChild(thEl);
 
   for (var i = 0; i < hours.length; i++) {
-    // create a th
     var thEl = document.createElement('th');
-    // give it content
     thEl.textContent = totals[0][i];
-    // append to the tr
     trEl.appendChild(thEl);
   };
 
@@ -151,7 +124,6 @@ function makeFooterRow() {
   thEl.textContent = totals[1];
   trEl.appendChild(thEl);
 
-  // Append to table
   storeTable.appendChild(trEl);
 };
 
