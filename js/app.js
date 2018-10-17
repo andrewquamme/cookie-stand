@@ -2,187 +2,133 @@
 
 var hours = ['6am', '7am', '8am', '9am','10am','11am','12pm','1pm','2pm','3pm','4pm','5pm','6pm','7pm'];
 
-function getRandomInclusive(min, max) {
-  // receives a min and max as input, calculates a random number inclusive of those numbers - from MDN docs
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+var allStores = [];
+
+var storeTable = document.getElementById('stores');
+
+function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPerCustomer) {
+  this.location = location;
+  this.minCustomersPerHour = minCustomersPerHour;
+  this.maxCustomersPerHour = maxCustomersPerHour;
+  this.avgCookiesPerCustomer = avgCookiesPerCustomer;
+  this.customersPerHour = [];
+  this.cookiesPerHour = [];
+  this.totalDailySales = 0;
+  allStores.push(this);
 };
 
-function  calcCustomersPerHour(min, max) {
+Store.prototype.calcCustomersPerHour = function() {
   // take the estimated min and max customers per hour, and return a random number to estimate the customers per hour for each hour of operation
-  var estimates = [];
   for (var i = 0; i < hours.length; i++) {
-    var custThisHour = getRandomInclusive(min, max);
-    estimates.push(custThisHour);
+    this.customersPerHour.push(Math.floor(Math.random() * (this.maxCustomersPerHour - this.minCustomersPerHour + 1)) + this.minCustomersPerHour);
   }
-  return estimates;
 };
 
-function calcHourlyCookieSales(hourlyCust, averageSales) {
+Store.prototype.calcHourlyCookieSales = function() {
   // take the array of estimated hourly customers and average cookie sales per customer, and return the estimate of hourly cookie sales
-  var hourlySales = [];
-  for (var i = 0; i < hourlyCust.length; i++) {
-    var salesThisHour = Math.ceil(hourlyCust[i] * averageSales);
-    hourlySales.push(salesThisHour);
+  for (var i = 0; i < hours.length; i++) {
+    this.cookiesPerHour.push(Math.ceil(this.customersPerHour[i] * this.avgCookiesPerCustomer));
+    // Add to daily total
+    this.totalDailySales += this.cookiesPerHour[i];
   };
-  return hourlySales;
 };
 
-function calcTotalDailySales(hourlySales) {
-  // take the array of hourly cookie sales and calculate the total sales for the day
-  var totalSales = 0;
-  for (var i = 0; i < hourlySales.length; i++) {
-    totalSales += hourlySales[i];
+Store.prototype.render = function(){
+  this.calcCustomersPerHour();
+  this.calcHourlyCookieSales();
+
+  var trEl = document.createElement('tr');
+
+  tdEl = document.createElement('td');
+  tdEl.textContent = this.location;
+  trEl.appendChild(tdEl);
+
+  for (var i = 0; i < hours.length; i++) {
+    var tdEl = document.createElement('td');
+    tdEl.textContent = this.cookiesPerHour[i];
+    trEl.appendChild(tdEl);
+  };
+
+  tdEl = document.createElement('td');
+  tdEl.textContent = this.totalDailySales;
+  trEl.appendChild(tdEl);
+
+  storeTable.appendChild(trEl);
+};
+
+new Store('First and Pike', 23, 65, 6.3);
+new Store('SeaTac Airport', 3, 24, 1.2);
+new Store('Seattle Center', 11, 38, 3.7);
+new Store('Capitol Hill', 20, 38, 2.3);
+new Store ('Alki', 2, 16, 4.6);
+// new Store('Codefellows', 15, 50, 1.3);
+// new Store('Tacoma', 5, 10, 12);
+
+function renderAllStores() {
+  for (var i = 0; i < allStores.length; i ++) {
+    allStores[i].render();
   }
-  return totalSales;
 };
 
-// 1st and Pike	23	65	6.3
-var pike = {
-  locationName: 'First and Pike',
-  minCustomersPerHour: 23,
-  maxCustomersPerHour: 65,
-  avgCookiesPerCustomer: 6.3,
-};
-pike.customersPerHour = calcCustomersPerHour(pike.minCustomersPerHour, pike.maxCustomersPerHour);
-pike.hourlyCookieSales = calcHourlyCookieSales(pike.customersPerHour, pike.avgCookiesPerCustomer);
-pike.totalDailySales = calcTotalDailySales(pike.hourlyCookieSales);
-pike.render = function() {
-  // render store sales info to sales.html page
-  // access location to place data
-  var pikeUl = document.getElementById('pike');
-  // for each element in the cookie sales array, we need to:
-  for (var i = 0; i < this.hourlyCookieSales.length; i ++) {
-    // 1. create an <li> element
-    var liEl = document.createElement('li');
-    // 2. give that <li> content
-    liEl.textContent = `${hours[i]}: ${this.hourlyCookieSales[i]} cookies`;
-    // 3. append the <li> child to the <ul> parent
-    pikeUl.appendChild(liEl);
+function makeHeaderRow() {
+
+  var trEl = document.createElement('tr');
+
+  thEl = document.createElement('th');
+  thEl.textContent = '';
+  trEl.appendChild(thEl);
+
+  for (var i = 0; i < hours.length; i++) {
+    var thEl = document.createElement('th');
+    thEl.textContent = hours[i];
+    trEl.appendChild(thEl);
   };
-  // add total sales at end of list
-  liEl = document.createElement('li');
-  liEl.textContent = `Total: ${this.totalDailySales} cookies`;
-  pikeUl.appendChild(liEl);
+
+  thEl = document.createElement('th');
+  thEl.textContent = 'Total Daily Sales';
+  trEl.appendChild(thEl);
+
+  storeTable.appendChild(trEl);
 };
 
-// SeaTac Airport	3	24	1.2
-var seatac = {
-  locationName: 'Seatac Airport',
-  minCustomersPerHour: 3,
-  maxCustomersPerHour: 65,
-  avgCookiesPerCustomer: 1.2,
-};
-seatac.customersPerHour = calcCustomersPerHour(seatac.minCustomersPerHour, seatac.maxCustomersPerHour);
-seatac.hourlyCookieSales = calcHourlyCookieSales(seatac.customersPerHour, seatac.avgCookiesPerCustomer);
-seatac.totalDailySales = calcTotalDailySales(seatac.hourlyCookieSales);
-seatac.render = function() {
-  // render store sales info to sales.html page
-  // access location to place data
-  var seatacUl = document.getElementById('seatac');
-  // for each element in the cookie sales array, we need to:
-  for (var i = 0; i < this.hourlyCookieSales.length; i ++) {
-    // 1. create a <li> element
-    var liEl = document.createElement('li');
-    // 2. give that <li> content
-    liEl.textContent = `${hours[i]}: ${this.hourlyCookieSales[i]} cookies`;
-    // 3. append the <li> to the <ul>
-    seatacUl.appendChild(liEl);
+function calcTotalHourlyCookieSales() {
+  var hourlyTotals = [];
+  var grandTotal = 0;
+  for (var i = 0; i < hours.length; i ++){
+    hourlyTotals.push(0);
+    for (var j = 0; j < allStores.length; j++) {
+      hourlyTotals[i] += allStores[j].cookiesPerHour[i];
+    };
+    grandTotal += hourlyTotals[i];
   };
-  // add total sales at end of list
-  liEl = document.createElement('li');
-  liEl.textContent = `Total: ${this.totalDailySales} cookies`;
-  seatacUl.appendChild(liEl);
+
+  return [hourlyTotals, grandTotal];
 };
 
-// Seattle Center	11	38	3.7
-var seaCenter = {
-  locationName: 'Seattle Center',
-  minCustomersPerHour: 11,
-  maxCustomersPerHour: 38,
-  avgCookiesPerCustomer: 3.7,
-};
-seaCenter.customersPerHour = calcCustomersPerHour(seaCenter.minCustomersPerHour, seaCenter.maxCustomersPerHour);
-seaCenter.hourlyCookieSales = calcHourlyCookieSales(seaCenter.customersPerHour, seaCenter.avgCookiesPerCustomer);
-seaCenter.totalDailySales = calcTotalDailySales(seaCenter.hourlyCookieSales);
-seaCenter.render = function() {
-  // render store sales info to sales.html page
-  // access location to place data
-  var seaCenterUl = document.getElementById('seattle-center');
-  // for each element in the cookie sales array, we need to:
-  for (var i = 0; i < this.hourlyCookieSales.length; i ++) {
-    // 1. create a <li> element
-    var liEl = document.createElement('li');
-    // 2. give that <li> content
-    liEl.textContent = `${hours[i]}: ${this.hourlyCookieSales[i]} cookies`;
-    // 3. append the <li> to the <ul>
-    seaCenterUl.appendChild(liEl);
+function makeFooterRow() {
+  var totals = calcTotalHourlyCookieSales();
+
+  var trEl = document.createElement('tr');
+
+  thEl = document.createElement('th');
+  thEl.textContent = 'Totals';
+  trEl.appendChild(thEl);
+
+  for (var i = 0; i < hours.length; i++) {
+    var thEl = document.createElement('th');
+    thEl.textContent = totals[0][i];
+    trEl.appendChild(thEl);
   };
-  // add total sales at end of list
-  liEl = document.createElement('li');
-  liEl.textContent = `Total: ${this.totalDailySales} cookies`;
-  seaCenterUl.appendChild(liEl);
+
+  thEl = document.createElement('th');
+  thEl.textContent = totals[1];
+  trEl.appendChild(thEl);
+
+  storeTable.appendChild(trEl);
 };
 
-// Capitol Hill	20	38	2.3
-var capitolHill = {
-  locationName: 'Capitol Hill',
-  minCustomersPerHour: 20,
-  maxCustomersPerHour: 38,
-  avgCookiesPerCustomer: 2.3,
-};
-capitolHill.customersPerHour = calcCustomersPerHour(capitolHill.minCustomersPerHour, capitolHill.maxCustomersPerHour);
-capitolHill.hourlyCookieSales = calcHourlyCookieSales(capitolHill.customersPerHour, capitolHill.avgCookiesPerCustomer);
-capitolHill.totalDailySales = calcTotalDailySales(capitolHill.hourlyCookieSales);
-capitolHill.render = function() {
-  // render store sales info to sales.html page
-  // access location to place data
-  var capitolHillUl = document.getElementById('capitol-hill');
-  // for each element in the cookie sales array, we need to:
-  for (var i = 0; i < this.hourlyCookieSales.length; i ++) {
-    // 1. create a <li> element
-    var liEl = document.createElement('li');
-    // 2. give that <li> content
-    liEl.textContent = `${hours[i]}: ${this.hourlyCookieSales[i]} cookies`;
-    // 3. append the <li> to the <ul>
-    capitolHillUl.appendChild(liEl);
-  };
-  // add total sales at end of list
-  liEl = document.createElement('li');
-  liEl.textContent = `Total: ${this.totalDailySales} cookies`;
-  capitolHillUl.appendChild(liEl);
-};
+makeHeaderRow();
+renderAllStores();
+makeFooterRow();
 
-// Alki	2	16	4.6
-var alki = {
-  locationName: 'Alki',
-  minCustomersPerHour: 2,
-  maxCustomersPerHour: 16,
-  avgCookiesPerCustomer: 4.6,
-};
-alki.customersPerHour = calcCustomersPerHour(alki.minCustomersPerHour, alki.maxCustomersPerHour);
-alki.hourlyCookieSales = calcHourlyCookieSales(alki.customersPerHour, alki.avgCookiesPerCustomer);
-alki.totalDailySales = calcTotalDailySales(alki.hourlyCookieSales);
-alki.render = function() {
-  // render store sales info to sales.html page
-  // access location to place data
-  var alkiUl = document.getElementById('alki');
-  // for each element in the cookie sales array, we need to:
-  for (var i = 0; i < this.hourlyCookieSales.length; i ++) {
-    // 1. create a <li> element
-    var liEl = document.createElement('li');
-    // 2. give that <li> content
-    liEl.textContent = `${hours[i]}: ${this.hourlyCookieSales[i]} cookies`;
-    // 3. append the <li> to the <ul>
-    alkiUl.appendChild(liEl);
-  };
-  // add total sales at end of list
-  liEl = document.createElement('li');
-  liEl.textContent = `Total: ${this.totalDailySales} cookies`;
-  alkiUl.appendChild(liEl);
-};
-
-pike.render();
-seatac.render();
-seaCenter.render();
-capitolHill.render();
-alki.render();
+console.table(allStores);
