@@ -109,5 +109,3 @@ function makeFooterRow() {
 makeHeaderRow();
 renderSalesTable();
 makeFooterRow();
-
-console.table(allStores);
