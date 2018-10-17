@@ -78,6 +78,8 @@ new Store('SeaTac Airport', 3, 24, 1.2);
 new Store('Seattle Center', 11, 38, 3.7);
 new Store('Capitol Hill', 20, 38, 2.3);
 new Store ('Alki', 2, 16, 4.6);
+// new Store('Codefellows', 15, 50, 1.3);
+// new Store('Tacoma', 5, 10, 12);
 
 // Render all stores
 function renderAllStores() {
@@ -92,7 +94,7 @@ function makeHeaderRow() {
   var trEl = document.createElement('tr');
 
   thEl = document.createElement('th');
-  thEl.textContent = 'Store Location';
+  thEl.textContent = '';
   trEl.appendChild(thEl);
 
   for (var i = 0; i < hours.length; i++) {
@@ -157,4 +159,4 @@ makeHeaderRow();
 renderAllStores();
 makeFooterRow();
 
-// console.table(allStores);
+console.table(allStores);
