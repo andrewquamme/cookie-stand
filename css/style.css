@@ -1,5 +1,5 @@
 body {
-  width: 875px;
+  width: 960px;
 }
 
 h1 {
@@ -19,17 +19,13 @@ header {
 fieldset {
   border: 3px solid #f2f2f2;
   padding: 5px;
-  margin: 5px;
+  margin: auto;
   width: 800px;
-}
-
-button {
-  
 }
 
 table {
   text-align: center;
-  margin: 5px;
+  margin: auto;
 }
 
 th {
@@ -47,4 +43,8 @@ tr:nth-child(even) {
 
 tr:hover {
   background-color: #f5f5f5;
+}
+
+input[type=number], input[type=float] {
+  width: 40px;
 }

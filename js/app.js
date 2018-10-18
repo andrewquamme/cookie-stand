@@ -15,7 +15,12 @@ function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPer
   this.minCustomersPerHour = minCustomersPerHour;
   this.maxCustomersPerHour = maxCustomersPerHour;
   this.avgCookiesPerCustomer = avgCookiesPerCustomer;
+  this.customersPerHour = [];
+  this.cookiesPerHour = [];
+  this.totalDailySales = 0;
   allStores.push(this);
+  this.calcCustomersPerHour();
+  this.calcHourlyCookieSales();
 };
 
 // Randomly estimate customers per hour from min/max
@@ -33,15 +38,8 @@ Store.prototype.calcHourlyCookieSales = function() {
   };
 };
 
-// Perform calculations and render table data
+// Render table data for each object
 Store.prototype.render = function(){
-  this.customersPerHour = [];
-  this.cookiesPerHour = [];
-  this.totalDailySales = 0;
-
-  this.calcCustomersPerHour();
-  this.calcHourlyCookieSales();
-
   var trEl = document.createElement('tr');
   newElement('td', this.location, trEl);
   for (var i = 0; i < hours.length; i++) {
@@ -57,8 +55,6 @@ new Store('SeaTac Airport', 3, 24, 1.2);
 new Store('Seattle Center', 11, 38, 3.7);
 new Store('Capitol Hill', 20, 38, 2.3);
 new Store ('Alki', 2, 16, 4.6);
-// new Store('Codefellows', 15, 50, 1.3);
-// new Store('Tacoma', 5, 10, 12);
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++
 // FUNCTION DECLARATIONS
@@ -70,7 +66,7 @@ function newElement(type, content, parent) {
   parent.appendChild(element);
 };
 
-// Calculate hourly totals
+// Calculate hourly totals for all stores
 function calcTotalHourlyCookieSales() {
   var hourlyTotals = [];
   var grandTotal = 0;
@@ -96,7 +92,7 @@ function makeHeaderRow() {
 };
 
 // Table data
-function renderSalesData() {
+function renderTableRows() {
   for (var i = 0; i < allStores.length; i ++) {
     allStores[i].render();
   }
@@ -117,22 +113,22 @@ function makeFooterRow() {
 function renderAllElements() {
   storeTable.innerHTML = '';
   makeHeaderRow();
-  renderSalesData();
+  renderTableRows();
   makeFooterRow();
 }
 
 function handleFormSubmit(event) {
   event.preventDefault();
-
+  // Get form data
   var storeLocation = event.target.storeLocation.value;
   var minCustomers = Number(event.target.minCustomers.value);
   var maxCustomers = Number(event.target.maxCustomers.value);
   var avgSales = Number(event.target.avgSales.value);
-
+  // Create new store
   new Store(storeLocation, minCustomers, maxCustomers, avgSales);
-
+  // Render new table
   renderAllElements();
-
+  // Clear the form
   event.target.storeLocation.value = null;
   event.target.minCustomers.value = null;
   event.target.maxCustomers.value = null;
