@@ -3,29 +3,51 @@ body {
 }
 
 h1 {
+  font-family: 'Srisakdi', cursive;
   font-size: 30px;
   text-align: center;
+  margin: 10px;
 }
 
 h2 {
   font-size: 20px;
 }
 
-header {
-  margin: 5px;
-  padding: 5px;
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #e7e7e7;
+  background-color: #f3f3f3
 }
 
-fieldset {
-  border: 3px solid #f2f2f2;
-  padding: 5px;
-  margin: auto;
-  width: 800px;
+li {
+  float: left;
 }
 
-table {
+li a {
+  display: block;
+  color: #666;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #ddd;
+}
+
+table[id='store-table'] {
   text-align: center;
   margin: auto;
+  padding: 10px;
+}
+
+table[id='footer-table'] {
+  margin: auto;
+  margin-top: 5px;
+  text-align: center;
 }
 
 th {
@@ -45,6 +67,17 @@ tr:hover {
   background-color: #f5f5f5;
 }
 
+fieldset {
+  border: 3px solid #f2f2f2;
+  padding: 5px;
+  margin: auto;
+  width: 800px;
+}
+
 input[type=number], input[type=float] {
   width: 40px;
+}
+
+footer.tr {
+  background-color: black;
 }
