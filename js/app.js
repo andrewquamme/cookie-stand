@@ -34,7 +34,7 @@ Store.prototype.calcHourlyCookieSales = function() {
 };
 
 // Perform calculations and render table data
-Store.prototype.render = function(){
+Store.prototype.renderTableRow = function(){
   this.customersPerHour = [];
   this.cookiesPerHour = [];
   this.totalDailySales = 0;
@@ -57,8 +57,6 @@ new Store('SeaTac Airport', 3, 24, 1.2);
 new Store('Seattle Center', 11, 38, 3.7);
 new Store('Capitol Hill', 20, 38, 2.3);
 new Store ('Alki', 2, 16, 4.6);
-// new Store('Codefellows', 15, 50, 1.3);
-// new Store('Tacoma', 5, 10, 12);
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++
 // FUNCTION DECLARATIONS
@@ -70,7 +68,7 @@ function newElement(type, content, parent) {
   parent.appendChild(element);
 };
 
-// Calculate hourly totals
+// Calculate hourly totals for all stores
 function calcTotalHourlyCookieSales() {
   var hourlyTotals = [];
   var grandTotal = 0;
@@ -98,7 +96,7 @@ function makeHeaderRow() {
 // Table data
 function renderSalesData() {
   for (var i = 0; i < allStores.length; i ++) {
-    allStores[i].render();
+    allStores[i].renderTableRow();
   }
 };
 
@@ -115,7 +113,8 @@ function makeFooterRow() {
 };
 
 function renderAllElements() {
-  storeTable.innerHTML = '';
+  // storeTable.innerHTML = '';
+  
   makeHeaderRow();
   renderSalesData();
   makeFooterRow();
@@ -123,16 +122,16 @@ function renderAllElements() {
 
 function handleFormSubmit(event) {
   event.preventDefault();
-
+  // Get form data
   var storeLocation = event.target.storeLocation.value;
   var minCustomers = Number(event.target.minCustomers.value);
   var maxCustomers = Number(event.target.maxCustomers.value);
   var avgSales = Number(event.target.avgSales.value);
-
+  // Create new store
   new Store(storeLocation, minCustomers, maxCustomers, avgSales);
-
+  // Render new table
   renderAllElements();
-
+  // Clear the form
   event.target.storeLocation.value = null;
   event.target.minCustomers.value = null;
   event.target.maxCustomers.value = null;
