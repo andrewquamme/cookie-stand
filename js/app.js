@@ -15,7 +15,12 @@ function Store(location, minCustomersPerHour, maxCustomersPerHour, avgCookiesPer
   this.minCustomersPerHour = minCustomersPerHour;
   this.maxCustomersPerHour = maxCustomersPerHour;
   this.avgCookiesPerCustomer = avgCookiesPerCustomer;
+  this.customersPerHour = [];
+  this.cookiesPerHour = [];
+  this.totalDailySales = 0;
   allStores.push(this);
+  this.calcCustomersPerHour();
+  this.calcHourlyCookieSales();
 };
 
 // Randomly estimate customers per hour from min/max
@@ -33,15 +38,8 @@ Store.prototype.calcHourlyCookieSales = function() {
   };
 };
 
-// Perform calculations and render table data
-Store.prototype.renderTableRow = function(){
-  this.customersPerHour = [];
-  this.cookiesPerHour = [];
-  this.totalDailySales = 0;
-
-  this.calcCustomersPerHour();
-  this.calcHourlyCookieSales();
-
+// Render table data for each object
+Store.prototype.render = function(){
   var trEl = document.createElement('tr');
   newElement('td', this.location, trEl);
   for (var i = 0; i < hours.length; i++) {
@@ -94,9 +92,9 @@ function makeHeaderRow() {
 };
 
 // Table data
-function renderSalesData() {
+function renderTableRows() {
   for (var i = 0; i < allStores.length; i ++) {
-    allStores[i].renderTableRow();
+    allStores[i].render();
   }
 };
 
@@ -113,10 +111,9 @@ function makeFooterRow() {
 };
 
 function renderAllElements() {
-  // storeTable.innerHTML = '';
-  
+  storeTable.innerHTML = '';
   makeHeaderRow();
-  renderSalesData();
+  renderTableRows();
   makeFooterRow();
 }
 

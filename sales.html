@@ -14,27 +14,26 @@
     </header>
 
     <table id="store-table"></table>
+    <p>
+      <form id="store-form">
+        <fieldset>
+          <legend>Add New Store</legend>
 
-    <form id="store-form">
-      <fieldset>
-        <legend>Add New Store</legend>
+          <label for="storeLocation">Location: </label>
+          <input name="storeLocation" type="text" size="15" required />
+          <label for="minCustomers">Min Customers: </label>
+          <input name="minCustomers" type="number" size="5" required />
 
-        <label for="storeLocation">Location: </label>
-        <input name="storeLocation" type="text" size="15" required />
-        <br />
-        <label for="minCustomers">Min Customers: </label>
-        <input name="minCustomers" type="number" size="4" required />
+          <label for="maxCustomers">Max Customers: </label>
+          <input name="maxCustomers" type="number" size="5" required />
 
-        <label for="maxCustomers">Max Customers: </label>
-        <input name="maxCustomers" type="number" size="4" required />
+          <label for="avgSales">Average Cookies Sales: </label>
+          <input name="avgSales" type="float" size="5" required />
 
-        <label for="avgSales">Average Cookies Sales: </label>
-        <input name="avgSales" type="text" size="4" required />
-
-        <button type="submit">Add</button>        
-      </fieldset>
-    </form>
-   
+          <button type="submit">Add</button>        
+        </fieldset>
+      </form>
+    </p>
     <script src="js/app.js"></script>
   </body>
 </html>
