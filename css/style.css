@@ -1,5 +1,5 @@
 body {
-  width: 875px;
+  width: 960px;
 }
 
 h1 {
@@ -19,13 +19,13 @@ header {
 fieldset {
   border: 3px solid #f2f2f2;
   padding: 5px;
-  margin: 5px;
+  margin: auto;
   width: 800px;
 }
 
 table {
   text-align: center;
-  margin: 5px;
+  margin: auto;
 }
 
 th {
